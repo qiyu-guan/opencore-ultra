@@ -1,3 +1,2 @@
 requests>=2.28.0
 pyinstaller>=5.0
-tkinter  # 通常内置
