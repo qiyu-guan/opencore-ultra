@@ -1,0 +1,117 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Build EXE
+        run: |
+          pyinstaller --onefile --name=OpenCore_Ultra_v5.0 --add-data "core;core" --add-data "ui;ui" --hidden-import=tkinter --hidden-import=requests opencore_tool.py
+
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenCore_Ultra_Windows
+          path: dist/OpenCore_Ultra_v5.0.exe
+
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/OpenCore_Ultra_v5.0.exe
+          generate_release_notes: true
+          name: "OpenCore Ultra ${{ github.ref_name }}"
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install system dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-tk
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Build Linux executable
+        run: |
+          pyinstaller --onefile --name=OpenCore_Ultra_v5.0 --add-data "core:core" --add-data "ui:ui" --hidden-import=tkinter --hidden-import=requests opencore_tool.py
+
+      - name: Upload Linux executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenCore_Ultra_Linux
+          path: dist/OpenCore_Ultra_v5.0
+
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/OpenCore_Ultra_v5.0
+          generate_release_notes: true
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Build macOS executable
+        run: |
+          pyinstaller --onefile --name=OpenCore_Ultra_v5.0 --add-data "core:core" --add-data "ui:ui" --hidden-import=tkinter --hidden-import=requests opencore_tool.py
+
+      - name: Upload macOS executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenCore_Ultra_macOS
+          path: dist/OpenCore_Ultra_v5.0
+
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/OpenCore_Ultra_v5.0
+          generate_release_notes: true
