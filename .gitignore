@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+*.exe
+*.log
+
+# Tools (exclude large binaries)
+tools/
+!tools/.keep
+
+# Backups
+backup_*/
+full_backup/
+*.tar.gz
+*.img
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary
+temp/
+flash_temp/
+*.tmp
