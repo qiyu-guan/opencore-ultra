@@ -235,4 +235,6 @@ MIT License
 
 OpenCore Ultra v5.0 – 让每个人都能专业地维护自己的 Android 设备！
 
-```
+## 下载
+[![Build and Release](https://github.com/qiyu-guan/opencore-ultra/actions/workflows/main1.yml/badge.svg?branch=main)](https://github.com/qiyu-guan/opencore-ultra/actions/workflows/main1.yml)
+
