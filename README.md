@@ -1,4 +1,3 @@
-```markdown
 # 🚀 OpenCore Ultra v5.0
 
 > **AIBox · qiyu** 作品  
